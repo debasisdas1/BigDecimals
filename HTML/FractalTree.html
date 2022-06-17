@@ -1,0 +1,57 @@
+<html>
+<head>
+<script type="text/javascript">
+    function draw(){
+      var canvas = document.getElementById('canvas');
+      var context = canvas.getContext('2d');
+      context.beginPath();
+      context.rect(0,0,1500,1000);
+      context.fillStyle = "white";
+      context.fill();
+      drawTree(context);
+    }
+     
+    function drawTree(context){
+        branch(context, 750, 900, 270, 10);
+    }
+    function branch(context, x1, y1, angle, depth){
+        var branchArmLength = 15;
+        angle_deviation = 20
+        if (depth != 0){
+            var x2 = x1 + (Math.cos(angle*(Math.PI/180.0)) * depth * branchArmLength);
+            var y2 = y1 + (Math.sin(angle*(Math.PI/180.0)) * depth * branchArmLength);
+             
+            line(context, x1, y1, x2, y2, depth);
+            branch(context, x2, y2, angle - angle_deviation, depth - 1);
+            branch(context, x2, y2, angle + angle_deviation, depth - 1);
+        }
+    }
+    function line(context, x1, y1, x2, y2, thickness){
+        context.strokeStyle = "black"       
+        context.lineWidth = thickness * 1.5;
+        context.beginPath();
+        context.moveTo(x1,y1);
+        context.lineTo(x2, y2);
+        context.closePath();
+        context.stroke();
+    }
+    function random(min, max){
+        return min + Math.floor(Math.random()*(max+1-min));
+    }
+      
+</script>
+ 
+<style type="text/css">
+  canvas { border: 1px solid black; }
+</style>
+ 
+</head>
+ 
+<body>
+  <canvas id="canvas" width="1500" height="1000"></canvas>
+  <script type="text/javascript">
+  draw();
+  </script>
+</body>
+ 
+</html>
